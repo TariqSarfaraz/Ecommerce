@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import com.ecommerce.dto.CustomerReq;
+import com.ecommerce.dto.OrderReq;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Order;
 
@@ -14,5 +15,7 @@ public interface CustomerService {
 
     public List<Customer> getAllCustomers();
 
-    public Order purchaseProducts(int cid, int[] pid);
+//    public Order purchaseProducts(int cid, OrderReq orderReq);
+
+    public Order purchaseProducts(int cid, Order order);
 }

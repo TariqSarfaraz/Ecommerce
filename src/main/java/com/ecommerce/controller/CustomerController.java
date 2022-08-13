@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.CustomerReq;
+import com.ecommerce.dto.OrderReq;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Order;
 import com.ecommerce.service.CustomerService;
@@ -17,15 +18,15 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping("/{cid}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable int cid) {
-        Customer customer = customerService.getCustomerById(cid);
-        return ResponseEntity.ok(customer);
-    }
-
     @PostMapping
     public ResponseEntity<Customer> addCustomer(@RequestBody CustomerReq customerReq) {
         Customer customer = customerService.addCustomer(customerReq);
+        return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/{cid}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable int cid) {
+        Customer customer = customerService.getCustomerById(cid);
         return ResponseEntity.ok(customer);
     }
 
@@ -35,9 +36,9 @@ public class CustomerController {
         return ResponseEntity.ok(allCustomers);
     }
 
-    @PostMapping("/products/{cid}")
-    public ResponseEntity<Order> purchaseProducts(@PathVariable int cid, @RequestBody int[] pid) {
-        Order order = customerService.purchaseProducts(cid, pid);
+    @PostMapping("/orders/{cid}")
+    public ResponseEntity<Order> addOrder(@PathVariable int cid, @RequestBody Order orderReq) {
+        Order order = customerService.purchaseProducts(cid, orderReq);
         return ResponseEntity.ok(order);
     }
 

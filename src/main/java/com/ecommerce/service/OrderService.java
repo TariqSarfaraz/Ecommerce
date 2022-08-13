@@ -1,9 +1,10 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.OrderReq;
 import com.ecommerce.entity.Order;
+
+import java.util.List;
 
 public interface OrderService {
 
-    public String addOrder(int cid, OrderReq orderReq);
+    public List<Order> getAllOrders();
 }

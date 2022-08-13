@@ -6,20 +6,17 @@ import com.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
 
+
     @Override
-    public Product addProduct(ProductReq productReq) {
-
-        Product product = new Product();
-        product.setProductName(productReq.getProductName());
-        product.setProductPrice(productReq.getProductPrice());
-        product.setProductDescription(productReq.getProductDescription());
-
-        return productRepository.save(product);
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 }

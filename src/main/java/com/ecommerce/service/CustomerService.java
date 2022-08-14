@@ -10,8 +10,11 @@ public interface CustomerService {
 
     public CustomerResponse addCustomer(CustomerReq customerReq);
 
-    public CustomerResponse getCustomerById(int id);
+    public CustomerResponse getCustomerById(int cid);
 
     public List<CustomerResponse> getAllCustomers();
 
+    String deleteCustomerById(int cid);
+
+    CustomerResponse updateCustomerById(int cid, CustomerReq customerReq);
 }

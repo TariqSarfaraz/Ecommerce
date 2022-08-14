@@ -13,4 +13,8 @@ public interface ProductService {
     ProductResponse getProductById(int pid);
 
     List<ProductResponse> getAllProducts();
+
+    String deleteProduct(int pid);
+
+    ProductResponse updateProduct(int pid, ProductReq productReq);
 }

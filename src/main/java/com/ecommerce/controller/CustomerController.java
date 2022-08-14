@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,6 +34,18 @@ public class CustomerController {
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
         List<CustomerResponse> allCustomers = customerService.getAllCustomers();
         return ResponseEntity.ok(allCustomers);
+    }
+
+    @PutMapping("/{cid}")
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable int cid, @RequestBody CustomerReq customerReq) {
+        CustomerResponse response = customerService.updateCustomerById(cid, customerReq);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{cid}")
+    public ResponseEntity<String> deleteCustomerById(@PathVariable int cid) {
+        String resp = customerService.deleteCustomerById(cid);
+        return ResponseEntity.ok(resp);
     }
 
 }

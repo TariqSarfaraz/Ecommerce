@@ -1,7 +1,9 @@
 package com.ecommerce.service;
 
+import com.ecommerce.dto.CustomerResponse;
 import com.ecommerce.dto.ProductReq;
 import com.ecommerce.dto.ProductResponse;
+import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Product;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.ProductRepository;
@@ -30,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getProductById(int pid) {
 
-        Product resp = productRepository.findById(pid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
+        Product resp = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
         ProductResponse product = new ProductResponse();
 
         BeanUtils.copyProperties(resp, product);
@@ -52,5 +54,27 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return products;
+    }
+
+    @Override
+    public String deleteProduct(int pid) {
+
+        productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+        productRepository.deleteById(pid);
+
+        return "Deleted";
+    }
+
+    @Override
+    public ProductResponse updateProduct(int pid, ProductReq productReq) {
+
+        Product product = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+        BeanUtils.copyProperties(productReq, product);
+        Product resp = productRepository.save(product);
+
+        ProductResponse response = new ProductResponse();
+        BeanUtils.copyProperties(resp, response);
+
+        return response;
     }
 }

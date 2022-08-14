@@ -7,7 +7,7 @@ import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CustomerRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerRepository customerRepository;
 
     @Override
-    public CustomerResponse addCustomer(CustomerReq customerReq) {
+    public ResponseEntity<CustomerResponse> addCustomer(CustomerReq customerReq) {
 
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerReq, customer);
@@ -29,22 +29,22 @@ public class CustomerServiceImpl implements CustomerService {
         Customer resp = customerRepository.save(customer);
         BeanUtils.copyProperties(resp, response);
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @Override
-    public CustomerResponse getCustomerById(int cid) {
+    public ResponseEntity<CustomerResponse> getCustomerById(int cid) {
 
         CustomerResponse response = new CustomerResponse();
         Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
         BeanUtils.copyProperties(customer, response);
 
-        return response;
+        return ResponseEntity.ok(response);
 
     }
 
     @Override
-    public List<CustomerResponse> getAllCustomers() {
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
 
         List<CustomerResponse> response = new ArrayList<>();
         List<Customer> customers = customerRepository.findAll();
@@ -55,20 +55,20 @@ public class CustomerServiceImpl implements CustomerService {
             response.add(customerResponse);
         }
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @Override
-    public String deleteCustomerById(int cid) {
+    public ResponseEntity<String> deleteCustomerById(int cid) {
 
         customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
         customerRepository.deleteById(cid);
 
-        return "Deleted";
+        return ResponseEntity.ok("Deleted");
     }
 
     @Override
-    public CustomerResponse updateCustomerById(int cid, CustomerReq customerReq) {
+    public ResponseEntity<CustomerResponse> updateCustomerById(int cid, CustomerReq customerReq) {
 
         Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
         BeanUtils.copyProperties(customerReq, customer);
@@ -77,6 +77,6 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerResponse response = new CustomerResponse();
         BeanUtils.copyProperties(resp, response);
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 }

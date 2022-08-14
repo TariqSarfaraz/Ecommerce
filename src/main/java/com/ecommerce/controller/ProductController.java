@@ -1,7 +1,5 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.CustomerReq;
-import com.ecommerce.dto.CustomerResponse;
 import com.ecommerce.dto.ProductReq;
 import com.ecommerce.dto.ProductResponse;
 import com.ecommerce.entity.Product;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,32 +19,27 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody ProductReq productReq) {
-        Product product = productService.addProduct(productReq);
-        return ResponseEntity.ok(product);
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductReq productReq) {
+        return productService.addProduct(productReq);
     }
 
     @GetMapping("/{pid}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable int pid) {
-        ProductResponse product = productService.getProductById(pid);
-        return ResponseEntity.ok(product);
+        return productService.getProductById(pid);
     }
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        List<ProductResponse> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+        return productService.getAllProducts();
     }
 
     @PutMapping("/{pid}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable int pid, @RequestBody ProductReq productReq) {
-        ProductResponse response = productService.updateProduct(pid, productReq);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable int pid,@Valid @RequestBody ProductReq productReq) {
+        return productService.updateProduct(pid, productReq);
     }
 
     @DeleteMapping("/{pid}")
     public ResponseEntity<String> deleteProduct(@PathVariable int pid) {
-        String resp = productService.deleteProduct(pid);
-        return ResponseEntity.ok(resp);
+        return productService.deleteProduct(pid);
     }
 }

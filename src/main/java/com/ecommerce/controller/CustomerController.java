@@ -2,7 +2,6 @@ package com.ecommerce.controller;
 
 import com.ecommerce.dto.CustomerReq;
 import com.ecommerce.dto.CustomerResponse;
-import com.ecommerce.entity.Customer;
 import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,33 +18,28 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> addCustomer(@RequestBody CustomerReq customerReq) {
-        CustomerResponse customer = customerService.addCustomer(customerReq);
-        return ResponseEntity.ok(customer);
+    public ResponseEntity<CustomerResponse> addCustomer(@Valid @RequestBody CustomerReq customerReq) {
+        return customerService.addCustomer(customerReq);
     }
 
     @GetMapping("/{cid}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable int cid) {
-        CustomerResponse customer = customerService.getCustomerById(cid);
-        return ResponseEntity.ok(customer);
+        return customerService.getCustomerById(cid);
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
-        List<CustomerResponse> allCustomers = customerService.getAllCustomers();
-        return ResponseEntity.ok(allCustomers);
+        return customerService.getAllCustomers();
     }
 
     @PutMapping("/{cid}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable int cid, @RequestBody CustomerReq customerReq) {
-        CustomerResponse response = customerService.updateCustomerById(cid, customerReq);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable int cid,@Valid @RequestBody CustomerReq customerReq) {
+        return customerService.updateCustomerById(cid, customerReq);
     }
 
     @DeleteMapping("/{cid}")
     public ResponseEntity<String> deleteCustomerById(@PathVariable int cid) {
-        String resp = customerService.deleteCustomerById(cid);
-        return ResponseEntity.ok(resp);
+        return customerService.deleteCustomerById(cid);
     }
 
 }

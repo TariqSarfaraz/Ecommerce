@@ -2,19 +2,19 @@ package com.ecommerce.service;
 
 import com.ecommerce.dto.CustomerReq;
 import com.ecommerce.dto.CustomerResponse;
-import com.ecommerce.entity.Customer;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    public CustomerResponse addCustomer(CustomerReq customerReq);
+    ResponseEntity<CustomerResponse> addCustomer(CustomerReq customerReq);
 
-    public CustomerResponse getCustomerById(int cid);
+    ResponseEntity<CustomerResponse> getCustomerById(int cid);
 
-    public List<CustomerResponse> getAllCustomers();
+    ResponseEntity<List<CustomerResponse>> getAllCustomers();
 
-    String deleteCustomerById(int cid);
+    ResponseEntity<String> deleteCustomerById(int cid);
 
-    CustomerResponse updateCustomerById(int cid, CustomerReq customerReq);
+    ResponseEntity<CustomerResponse> updateCustomerById(int cid, CustomerReq customerReq);
 }

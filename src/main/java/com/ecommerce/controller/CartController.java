@@ -17,14 +17,12 @@ public class CartController {
 
     @GetMapping("/{cid}")
     public ResponseEntity<List<CartResponse>> getCartItem(@PathVariable int cid) {
-        List<CartResponse> cartItems = cartService.getCartItemByCustomerId(cid);
-        return ResponseEntity.ok(cartItems);
+        return cartService.getCartItemByCustomerId(cid);
     }
 
     @PostMapping("/{pid}/{cid}/{quantity}")
     public ResponseEntity<String> addProductToCart(@PathVariable int pid, @PathVariable int cid, @PathVariable int quantity) {
-        String resp = cartService.addProductToCart(pid, cid, quantity);
-        return ResponseEntity.ok(resp);
+        return cartService.addProductToCart(pid, cid, quantity);
     }
 
 }

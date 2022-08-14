@@ -1,12 +1,13 @@
 package com.ecommerce.service;
 
 import com.ecommerce.dto.CartResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface CartService {
 
-    List<CartResponse> getCartItemByCustomerId(int cid);
+    ResponseEntity<List<CartResponse>> getCartItemByCustomerId(int cid);
 
-    String addProductToCart(int pid, int cid, int quantity);
+    ResponseEntity<String> addProductToCart(int pid, int cid, int quantity);
 }

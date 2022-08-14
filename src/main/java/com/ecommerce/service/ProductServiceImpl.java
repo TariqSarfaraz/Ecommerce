@@ -1,14 +1,13 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.CustomerResponse;
 import com.ecommerce.dto.ProductReq;
 import com.ecommerce.dto.ProductResponse;
-import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Product;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,27 +20,29 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Product addProduct(ProductReq productReq) {
+    public ResponseEntity<Product> addProduct(ProductReq productReq) {
 
         Product product = new Product();
         BeanUtils.copyProperties(productReq, product);
 
-        return productRepository.save(product);
+        Product response = productRepository.save(product);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
-    public ProductResponse getProductById(int pid) {
+    public ResponseEntity<ProductResponse> getProductById(int pid) {
 
         Product resp = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
         ProductResponse product = new ProductResponse();
 
         BeanUtils.copyProperties(resp, product);
 
-        return product;
+        return ResponseEntity.ok(product);
     }
 
     @Override
-    public List<ProductResponse> getAllProducts() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
         List<ProductResponse> products = new ArrayList<>();
         List<Product> resp = productRepository.findAll();
@@ -53,20 +54,20 @@ public class ProductServiceImpl implements ProductService {
             products.add(productResponse);
         }
 
-        return products;
+        return ResponseEntity.ok(products);
     }
 
     @Override
-    public String deleteProduct(int pid) {
+    public ResponseEntity<String> deleteProduct(int pid) {
 
         productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
         productRepository.deleteById(pid);
 
-        return "Deleted";
+        return ResponseEntity.ok("Deleted");
     }
 
     @Override
-    public ProductResponse updateProduct(int pid, ProductReq productReq) {
+    public ResponseEntity<ProductResponse> updateProduct(int pid, ProductReq productReq) {
 
         Product product = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
         BeanUtils.copyProperties(productReq, product);
@@ -75,6 +76,6 @@ public class ProductServiceImpl implements ProductService {
         ProductResponse response = new ProductResponse();
         BeanUtils.copyProperties(resp, response);
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 }

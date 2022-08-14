@@ -9,6 +9,7 @@ import com.ecommerce.repository.CartRepository;
 import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,11 +28,11 @@ public class CartServiceImpl implements CartService {
     private CustomerRepository customerRepository;
 
     @Override
-    public List<CartResponse> getCartItemByCustomerId(int cid) {
+    public ResponseEntity<List<CartResponse>> getCartItemByCustomerId(int cid) {
 
         CartResponse cartResponse = new CartResponse();
         List<CartResponse> cartResponses = new ArrayList<>();
-        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
         List<Cart> cartItems = cartRepository.findByCustomer(customer);
 
         for (Cart cart : cartItems) {
@@ -44,11 +45,11 @@ public class CartServiceImpl implements CartService {
             cartResponses.add(cartResponse);
         }
 
-        return cartResponses;
+        return ResponseEntity.ok(cartResponses);
     }
 
     @Override
-    public String addProductToCart(int pid, int cid, int quantity) {
+    public ResponseEntity<String> addProductToCart(int pid, int cid, int quantity) {
 
         Cart cart = new Cart();
         Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
@@ -60,6 +61,6 @@ public class CartServiceImpl implements CartService {
 
         cartRepository.save(cart);
 
-        return "Product added to the Cart";
+        return ResponseEntity.ok("Product added to the Cart");
     }
 }

@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import com.ecommerce.dto.ProductReq;
 import com.ecommerce.dto.ProductResponse;
 import com.ecommerce.entity.Product;
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getProductById(int pid) {
 
-        Product resp = productRepository.findById(pid).get();
+        Product resp = productRepository.findById(pid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
         ProductResponse product = new ProductResponse();
 
-        product.setProductId(resp.getProductId());
-        product.setProductName(resp.getProductName());
-        product.setProductDescription(resp.getProductDescription());
-        product.setProductPrice(resp.getProductPrice());
+        BeanUtils.copyProperties(resp, product);
 
         return product;
     }
@@ -43,16 +41,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getAllProducts() {
 
-        ProductResponse productResponse = new ProductResponse();
         List<ProductResponse> products = new ArrayList<>();
         List<Product> resp = productRepository.findAll();
 
         for (Product product : resp) {
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setProductName(product.getProductName());
-            productResponse.setProductPrice(product.getProductPrice());
-            productResponse.setProductDescription(product.getProductDescription());
+            ProductResponse productResponse = new ProductResponse();
+            BeanUtils.copyProperties(product, productResponse);
 
             products.add(productResponse);
         }

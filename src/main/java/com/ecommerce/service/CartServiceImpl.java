@@ -4,6 +4,7 @@ import com.ecommerce.dto.CartResponse;
 import com.ecommerce.entity.Cart;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Product;
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CartRepository;
 import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.repository.ProductRepository;
@@ -30,7 +31,7 @@ public class CartServiceImpl implements CartService {
 
         CartResponse cartResponse = new CartResponse();
         List<CartResponse> cartResponses = new ArrayList<>();
-        Customer customer = customerRepository.findById(cid).get();
+        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
         List<Cart> cartItems = cartRepository.findByCustomer(customer);
 
         for (Cart cart : cartItems) {
@@ -50,8 +51,8 @@ public class CartServiceImpl implements CartService {
     public String addProductToCart(int pid, int cid, int quantity) {
 
         Cart cart = new Cart();
-        Product product = productRepository.findById(pid).get();
-        Customer customer = customerRepository.findById(cid).get();
+        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
+        Product product = productRepository.findById(pid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
 
         cart.setProduct(product);
         cart.setCustomer(customer);

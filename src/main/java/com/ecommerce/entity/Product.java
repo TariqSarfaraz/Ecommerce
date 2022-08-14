@@ -1,6 +1,5 @@
 package com.ecommerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +23,5 @@ public class Product {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     @JsonManagedReference
-    private List<Cart> carts;
+    private List<Cart> cart;
 }

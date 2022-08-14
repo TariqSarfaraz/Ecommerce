@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.CustomerReq;
+import com.ecommerce.dto.CustomerResponse;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,20 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerReq customerReq) {
-        Customer customer = customerService.addCustomer(customerReq);
+    public ResponseEntity<CustomerResponse> addCustomer(@RequestBody CustomerReq customerReq) {
+        CustomerResponse customer = customerService.addCustomer(customerReq);
         return ResponseEntity.ok(customer);
     }
 
     @GetMapping("/{cid}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable int cid) {
-        Customer customer = customerService.getCustomerById(cid);
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable int cid) {
+        CustomerResponse customer = customerService.getCustomerById(cid);
         return ResponseEntity.ok(customer);
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> allCustomers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> allCustomers = customerService.getAllCustomers();
         return ResponseEntity.ok(allCustomers);
     }
 

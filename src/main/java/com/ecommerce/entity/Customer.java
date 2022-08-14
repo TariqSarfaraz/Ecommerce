@@ -16,7 +16,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cid;
+    private int customerId;
     private String customerName;
     private Long customerPhone;
     private String customerEmail;
@@ -24,5 +24,5 @@ public class Customer {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     @JsonManagedReference
-    private List<Order> orders;
+    private List<Cart> carts;
 }

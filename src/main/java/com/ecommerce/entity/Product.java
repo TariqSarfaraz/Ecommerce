@@ -1,11 +1,13 @@
 package com.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,13 +17,12 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pid;
+    private int productId;
     private String productName;
     private double productPrice;
     private String productDescription;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @JsonManagedReference
+    private List<Cart> carts;
 }

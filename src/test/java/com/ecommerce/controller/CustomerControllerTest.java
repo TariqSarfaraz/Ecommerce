@@ -38,4 +38,7 @@ class CustomerControllerTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    void getCustomerById() {
+        
+    }
 }

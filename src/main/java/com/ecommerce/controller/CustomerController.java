@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.CustomerReq;
-import com.ecommerce.dto.CustomerResponse;
+import com.ecommerce.dto.customerdto.CustomerReq;
+import com.ecommerce.dto.customerdto.CustomerResponse;
 import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

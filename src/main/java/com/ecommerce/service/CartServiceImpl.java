@@ -1,6 +1,8 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.CartResponse;
+import com.ecommerce.dto.cartdto.CartResponse;
+import com.ecommerce.dto.customerdto.CustomerResponse;
+import com.ecommerce.dto.productdto.ProductResponse;
 import com.ecommerce.entity.Cart;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Product;
@@ -8,6 +10,7 @@ import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CartRepository;
 import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.repository.ProductRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,17 +33,22 @@ public class CartServiceImpl implements CartService {
     @Override
     public ResponseEntity<List<CartResponse>> getCartItemByCustomerId(int cid) {
 
-        CartResponse cartResponse = new CartResponse();
         List<CartResponse> cartResponses = new ArrayList<>();
-        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
+
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
         List<Cart> cartItems = cartRepository.findByCustomer(customer);
 
         for (Cart cart : cartItems) {
 
-            cartResponse.setCartId(cart.getCartId());
+            CartResponse cartResponse = new CartResponse();
+            ProductResponse productResponse = new ProductResponse();
+
+            Product product = productRepository.findById(cart.getProduct().getProductId()).get();
+
+            BeanUtils.copyProperties(product, productResponse);
+
             cartResponse.setQuantity(cart.getQuantity());
-            cartResponse.setCustomerId(cart.getCustomer().getCustomerId());
-            cartResponse.setProductId(cart.getProduct().getProductId());
+            cartResponse.setProduct(productResponse);
 
             cartResponses.add(cartResponse);
         }
@@ -52,8 +60,8 @@ public class CartServiceImpl implements CartService {
     public ResponseEntity<String> addProductToCart(int pid, int cid, int quantity) {
 
         Cart cart = new Cart();
-        Customer customer = customerRepository.findById(cid).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
-        Product product = productRepository.findById(pid).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        Product product = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
 
         cart.setProduct(product);
         cart.setCustomer(customer);

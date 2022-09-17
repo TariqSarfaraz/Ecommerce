@@ -1,6 +1,6 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.CustomerResponse;
+import com.ecommerce.dto.customerdto.CustomerResponse;
 import com.ecommerce.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

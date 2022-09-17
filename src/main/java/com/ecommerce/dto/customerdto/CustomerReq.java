@@ -1,4 +1,4 @@
-package com.ecommerce.dto;
+package com.ecommerce.dto.customerdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +18,5 @@ public class CustomerReq {
     private String customerEmail;
     @NotBlank(message = "Address Cannot be Null")
     private String customerAddress;
-    @Min(10)
     private long customerPhone;
 }

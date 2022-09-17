@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.ProductReq;
-import com.ecommerce.dto.ProductResponse;
+import com.ecommerce.dto.productdto.ProductReq;
+import com.ecommerce.dto.productdto.ProductResponse;
 import com.ecommerce.entity.Product;
 import com.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductReq productReq) {
+    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductReq productReq) {
         return productService.addProduct(productReq);
     }
 

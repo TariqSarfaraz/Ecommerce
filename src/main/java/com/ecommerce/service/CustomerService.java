@@ -1,7 +1,7 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.CustomerReq;
-import com.ecommerce.dto.CustomerResponse;
+import com.ecommerce.dto.customerdto.CustomerReq;
+import com.ecommerce.dto.customerdto.CustomerResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

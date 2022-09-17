@@ -1,7 +1,7 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.ProductReq;
-import com.ecommerce.dto.ProductResponse;
+import com.ecommerce.dto.productdto.ProductReq;
+import com.ecommerce.dto.productdto.ProductResponse;
 import com.ecommerce.entity.Product;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.ProductRepository;
@@ -20,12 +20,14 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public ResponseEntity<Product> addProduct(ProductReq productReq) {
+    public ResponseEntity<ProductResponse> addProduct(ProductReq productReq) {
 
         Product product = new Product();
+        ProductResponse response = new ProductResponse();
         BeanUtils.copyProperties(productReq, product);
 
-        Product response = productRepository.save(product);
+        Product result = productRepository.save(product);
+        BeanUtils.copyProperties(result, response);
 
         return ResponseEntity.ok(response);
     }

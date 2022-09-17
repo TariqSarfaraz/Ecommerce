@@ -22,7 +22,7 @@ public class Customer {
     private String customerEmail;
     private String customerAddress;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
     @JsonManagedReference
     private List<Cart> cart;
 }

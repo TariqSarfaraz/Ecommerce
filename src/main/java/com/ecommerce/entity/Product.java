@@ -21,7 +21,7 @@ public class Product {
     private double productPrice;
     private String productDescription;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Cart> cart;
 }

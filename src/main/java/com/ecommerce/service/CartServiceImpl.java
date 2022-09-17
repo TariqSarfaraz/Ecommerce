@@ -31,19 +31,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public ResponseEntity<List<CartResponse>> getCartItemByCustomerId(int cid) {
 
-        CartResponse cartResponse = new CartResponse();
-        Product product = new Product();
         List<CartResponse> cartResponses = new ArrayList<>();
 
         Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
         List<Cart> cartItems = cartRepository.findByCustomer(customer);
 
         for (Cart cart : cartItems) {
-
-            product = productRepository.findById(cart.getProduct().getProductId()).get();
+            CartResponse cartResponse = new CartResponse();
 
             cartResponse.setQuantity(cart.getQuantity());
-            cartResponse.setProduct((Product) Hibernate.unproxy(product));
+            cartResponse.setProduct((Product) Hibernate.unproxy(cart.getProduct()));
 
             cartResponses.add(cartResponse);
         }

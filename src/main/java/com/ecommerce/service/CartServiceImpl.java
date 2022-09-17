@@ -1,8 +1,6 @@
 package com.ecommerce.service;
 
 import com.ecommerce.dto.cartdto.CartResponse;
-import com.ecommerce.dto.customerdto.CustomerResponse;
-import com.ecommerce.dto.productdto.ProductResponse;
 import com.ecommerce.entity.Cart;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.Product;
@@ -10,6 +8,7 @@ import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CartRepository;
 import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.repository.ProductRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +32,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public ResponseEntity<List<CartResponse>> getCartItemByCustomerId(int cid) {
 
+        CartResponse cartResponse = new CartResponse();
+        Product product = new Product();
         List<CartResponse> cartResponses = new ArrayList<>();
 
         Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
@@ -40,15 +41,10 @@ public class CartServiceImpl implements CartService {
 
         for (Cart cart : cartItems) {
 
-            CartResponse cartResponse = new CartResponse();
-            ProductResponse productResponse = new ProductResponse();
-
-            Product product = productRepository.findById(cart.getProduct().getProductId()).get();
-
-            BeanUtils.copyProperties(product, productResponse);
+            product = productRepository.findById(cart.getProduct().getProductId()).get();
 
             cartResponse.setQuantity(cart.getQuantity());
-            cartResponse.setProduct(productResponse);
+            cartResponse.setProduct((Product) Hibernate.unproxy(product));
 
             cartResponses.add(cartResponse);
         }

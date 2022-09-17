@@ -1,7 +1,6 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.productdto.ProductReq;
-import com.ecommerce.dto.productdto.ProductResponse;
 import com.ecommerce.entity.Product;
 import com.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +18,22 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductReq productReq) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductReq productReq) {
         return productService.addProduct(productReq);
     }
 
     @GetMapping("/{pid}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable int pid) {
+    public ResponseEntity<Product> getProductById(@PathVariable int pid) {
         return productService.getProductById(pid);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @PutMapping("/{pid}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable int pid,@Valid @RequestBody ProductReq productReq) {
+    public ResponseEntity<Product> updateProduct(@PathVariable int pid,@Valid @RequestBody ProductReq productReq) {
         return productService.updateProduct(pid, productReq);
     }
 

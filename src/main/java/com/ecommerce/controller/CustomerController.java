@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.customerdto.CustomerReq;
-import com.ecommerce.dto.customerdto.CustomerResponse;
+import com.ecommerce.entity.Customer;
 import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +18,22 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> addCustomer(@Valid @RequestBody CustomerReq customerReq) {
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody CustomerReq customerReq) {
         return customerService.addCustomer(customerReq);
     }
 
     @GetMapping("/{cid}")
-    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable int cid) {
+    public ResponseEntity<Customer> getCustomerById(@PathVariable int cid) {
         return customerService.getCustomerById(cid);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
     @PutMapping("/{cid}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable int cid,@Valid @RequestBody CustomerReq customerReq) {
+    public ResponseEntity<Customer> updateCustomer(@PathVariable int cid,@Valid @RequestBody CustomerReq customerReq) {
         return customerService.updateCustomerById(cid, customerReq);
     }
 

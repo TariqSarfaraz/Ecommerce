@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ResponseEntity<String> deleteCustomerById(int cid) {
 
-        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
+        customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
         customerRepository.deleteById(cid);
 
         return ResponseEntity.ok("Deleted");

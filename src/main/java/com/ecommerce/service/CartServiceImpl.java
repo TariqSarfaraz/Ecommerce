@@ -8,6 +8,7 @@ import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CartRepository;
 import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.repository.ProductRepository;
+import com.ecommerce.utils.Constants;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CartServiceImpl implements CartService {
 
         List<CartResponse> cartResponses = new ArrayList<>();
 
-        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
         List<Cart> cartItems = cartRepository.findByCustomer(customer);
 
         for (Cart cart : cartItems) {
@@ -52,8 +53,8 @@ public class CartServiceImpl implements CartService {
     public ResponseEntity<String> addProductToCart(int pid, int cid, int quantity) {
 
         Cart cart = new Cart();
-        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
-        Product product = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
+        Product product = productRepository.findById(pid).orElseThrow(() -> new ResourceNotFoundException(Constants.PRODUCTNOTFOUND));
 
         cart.setProduct(product);
         cart.setCustomer(customer);

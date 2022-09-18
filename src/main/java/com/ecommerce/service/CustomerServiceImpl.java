@@ -4,8 +4,10 @@ import com.ecommerce.dto.customerdto.CustomerReq;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CustomerRepository;
+import com.ecommerce.utils.Constants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,13 @@ public class CustomerServiceImpl implements CustomerService {
         BeanUtils.copyProperties(customerReq, customer);
         customer = customerRepository.save(customer);
 
-        return ResponseEntity.ok(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
     @Override
     public ResponseEntity<Customer> getCustomerById(int cid) {
 
-        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
 
         return ResponseEntity.ok(customer);
 
@@ -46,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ResponseEntity<String> deleteCustomerById(int cid) {
 
-        customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
         customerRepository.deleteById(cid);
 
         return ResponseEntity.ok("Deleted");
@@ -55,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ResponseEntity<Customer> updateCustomerById(int cid, CustomerReq customerReq) {
 
-        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        Customer customer = customerRepository.findById(cid).orElseThrow(() -> new ResourceNotFoundException(Constants.USERNOTFOUND));
         BeanUtils.copyProperties(customerReq, customer);
         customer = customerRepository.save(customer);
 
